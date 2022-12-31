@@ -1,0 +1,85 @@
+{
+  "resource_version": 2,
+  "metadata": {
+    "version": 3,
+    "sources": [
+      {
+        "name": "reality0",
+        "kind": "postgres",
+        "tables": [
+          {
+            "table": {
+              "schema": "parlament",
+              "name": "areas"
+            }
+          },
+          {
+            "table": {
+              "schema": "parlament",
+              "name": "mos"
+            }
+          },
+          {
+            "table": {
+              "schema": "parlament",
+              "name": "operations"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "cats"
+            },
+            "object_relationships": [
+              {
+                "name": "owner",
+                "using": {
+                  "foreign_key_constraint_on": "ownerId"
+                }
+              }
+            ],
+            "select_permissions": [
+              {
+                "role": "user",
+                "permission": {
+                  "columns": ["created_at", "id"],
+                  "filter": {}
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "owners"
+            },
+            "array_relationships": [
+              {
+                "name": "cats",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "ownerId",
+                    "table": {
+                      "schema": "public",
+                      "name": "cats"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "configuration": {
+          "connection_info": {
+            "use_prepared_statements": false,
+            "database_url": {
+              "from_env": "HASURA_GRAPHQL_DB_URL_FROM_ENV"
+            },
+            "isolation_level": "read-committed"
+          }
+        }
+      }
+    ],
+    "remote_schemas": []
+  }
+}
